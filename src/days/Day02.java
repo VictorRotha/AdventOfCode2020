@@ -27,35 +27,38 @@ public class Day02 {
                 c = fields[1].charAt(0);
                 password = fields[2];
 
-                cCount = 0;
-                for (int i = 0; i < password.length(); i++) {
-                    if (password.charAt(i) == c) cCount ++;
-                }
+//                cCount = countElements(c, password);
+                cCount = countElementsRecursive(c, password, 0);
 
                 policy1 = (cCount >= minCount && cCount <= maxCount);
                 if (policy1) validCount1++;
 
                 c1 = password.charAt(minCount-1);
                 c2 = password.charAt(maxCount-1);
-                policy2 = ((c1 == c) || (c2 == c)) && (c1 != c2);
-                if (policy2) validCount2++;
+                policy2 = (c1 == c) ^ (c2 == c);
 
+                if (policy2) validCount2++;
             }
 
             System.out.println("Valid Passwords 1: " + validCount1);
             System.out.println("Valid Passwords 2: " + validCount2);
 
-
-
-
-
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public static int countElements(char c, String password) {
+        int cCount = 0;
+        for (int i = 0; i < password.length(); i++) {
+            if (password.charAt(i) == c) cCount ++;
+        }
+        return cCount;
+    }
 
+    public static int countElementsRecursive(char c, String password, int index) {
+        if (index == password.length()) return 0;
+        int counter = (password.charAt(index) == c) ? 1 : 0;
+        return counter + countElementsRecursive(c, password, index + 1);
     }
 }
