@@ -20,16 +20,24 @@ public class Day03 {
             ex.printStackTrace();
         }
 
+        int product = slope(1,1,input) *
+                slope(3,1,input) *
+                slope(5,1,input) *
+                slope(7,1,input) *
+                slope(1,2,input);
+
+        System.out.println("Part 01: " + slope(3,1,input));
+        System.out.println("Part 02: " + product);
+    }
+
+    public static int slope(int right, int down, ArrayList<String> input) {
         int col = 0, trees = 0;
         int l = input.get(0).length();
-        for (int row = 1; row < input.size(); row++) {
-            col = (col + 3) % l;
+        for (int row = down; row < input.size(); row+=down) {
+            col = (col + right) % l;
             if (input.get(row).charAt(col) == '#') trees++;
         }
-        System.out.println("Trees: " + trees);
-
-
-
+        return trees;
     }
 
 }
