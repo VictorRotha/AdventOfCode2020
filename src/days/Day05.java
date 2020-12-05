@@ -14,6 +14,14 @@ public class Day05 {
 
         int maxID = Collections.max(input);
         System.out.println("Max Seat ID = " + maxID);
+
+        int minID = Collections.min(input);
+
+        for (int i = minID + 1; i < maxID; i++) {
+            if (!input.contains(i) && input.contains(i-1) && input.contains(i+1)) {
+                System.out.println("My  Seat ID = " + i);
+            }
+        }
     }
 
     public static ArrayList<Integer> readInput(String path) {
