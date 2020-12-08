@@ -9,3 +9,4 @@
 - [Day 05: Binary Boarding](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day05.java)
 - [Day 06: Custom Customs](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day06.java)
 - [Day 07: Handy Haversacks](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day07.java)
+- [Day 08: Handheld Halting](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day08.java)
