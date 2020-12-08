@@ -32,7 +32,12 @@ public class Day08 {
         return instructions;
     }
 
+
     public static int[] runInstructions(ArrayList<Day08Instruction> instructions) {
+        return runInstructions(instructions, false, 0);
+    }
+
+    public static int[] runInstructions(ArrayList<Day08Instruction> instructions, boolean modified, int modIndex) {
         ArrayList<Integer> instrDone = new ArrayList<>();
         String op; int ar;
 
@@ -45,7 +50,13 @@ public class Day08 {
                 break;
             }
             instrDone.add(index);
-            op = instructions.get(index).operation;
+
+            if (modified && index == modIndex) {
+                op = (instructions.get(index).operation.equals("nop")) ? "jmp" : "nop";
+            } else {
+                op = instructions.get(index).operation;
+            }
+
             ar = instructions.get(index).argument;
             switch (op) {
                 case "acc":
@@ -59,7 +70,6 @@ public class Day08 {
                     index++;
                     break;
             }
-
         }
 
         return new int[] {instrEnd, accumulator};
@@ -71,19 +81,11 @@ public class Day08 {
             if (instructions.get(i).operation.equals("acc")) {
                 continue;
             }
-
-            ArrayList<Day08Instruction> newInstructions = new ArrayList<>(instructions);
-            String newOp = (instructions.get(i).operation.equals("jmp")) ? "nop" : "jmp";
-            newInstructions.set(i, new Day08Instruction(newOp, instructions.get(i).argument));
-
-            int[] result = runInstructions(newInstructions);
+            int[] result = runInstructions(instructions, true, i);
             if (result[0] == 1) {
-//                System.out.println("changed index " + i);
                 return result[1];
             }
-
         }
     return 0;
     }
-
 }
