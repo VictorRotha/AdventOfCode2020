@@ -11,5 +11,6 @@
 - [Day 07: Handy Haversacks](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day07.java)
 - [Day 08: Handheld Halting](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day08.java)
 - [Day 09: Encoding Error](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day09.java)
+- [Day 10: Adapter Array](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day10.java)
 
 (Removed all input data from Repository)
