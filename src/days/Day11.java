@@ -9,20 +9,33 @@ public class Day11 {
 
     public static void main(String[] args) {
         String path = "src/input/Day11_input.txt";
-        ArrayList<char[]> input = readInput(path);
+        int w = seatsWidth(path);
+        ArrayList<Character> input = readInput(path);
 
-        System.out.printf("Part 01: %s Occupied Seats\n", cycle(input));
-        System.out.printf("Part 02: %s Occupied Seats\n", cycle2(input));
-
+        System.out.printf("Part 01: %s Occupied Seats\n", cycle(input, w, false));
+        System.out.printf("Part 02: %s Occupied Seats\n", cycle(input, w, true));
     }
 
-    public static ArrayList<char[]> readInput(String path) {
-        ArrayList<char[]> result = new ArrayList<>();
+    public static int seatsWidth(String path) {
+        int result = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(path));
+            result = br.readLine().length();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static ArrayList<Character> readInput(String path) {
+        ArrayList<Character> result = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             String line;
             while ((line = br.readLine()) != null) {
-                result.add(line.toCharArray());
+                for (char c : line.toCharArray()) {
+                    result.add(c);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -30,50 +43,47 @@ public class Day11 {
         return result;
     }
 
-    public static void printSeats(ArrayList<char[]> input) {
-        for (char[] row : input) {
-            for (char c : row) {
-                System.out.print(c + " ");
+    public static void printSeats(ArrayList<Character> input, int width) {
+        for (int i = 0; i < input.size(); i++) {
+            System.out.print(input.get(i) + " ");
+            if ((i+1) % width == 0) {
+                System.out.println();
             }
-            System.out.println();
         }
-        System.out.println();
     }
 
-    public static int cycle(ArrayList<char[]> input) {
-        ArrayList<char[]> result;
-        int w = input.get(0).length;
+    public static boolean inSeats(ArrayList<Character> input, int row, int col, int width) {
+        return (col >= 0 && col < width && row >= 0 && row < input.size() / width);
+    }
+
+    public static int cycle(ArrayList<Character> input, int width, boolean vis) {
+        ArrayList<Character> result;
         boolean changed = true;
-        int round = 0, occupied = 0;
+        int occupied = 0;
+        int neighbours;
+        char seat;
+        int maxNeighbours = (vis) ? 5 : 4;
 
         while (changed) {
             changed = false;
-            round ++;
             occupied = 0;
-
             result = new ArrayList<>();
             for (int i = 0; i < input.size(); i++) {
-                result.add(new char[w]);
-            }
+                seat = input.get(i);
+                neighbours = findAdjacents(input, i, width, vis);
 
-            for (int row = 0; row < input.size(); row++) {
-                for (int col = 0; col < w; col++) {
-                    char seat = input.get(row)[col];
-                    int neighbours = findAdjacents(input, row, col);
+                if (seat == 'L' && neighbours == 0) {
+                    result.add('#');
+                    changed = true;
+                } else if (seat == '#' && neighbours >= maxNeighbours) {
+                    result.add('L');
+                    changed = true;
+                } else {
+                    result.add(seat);
+                }
 
-                    if (seat == 'L' && neighbours == 0) {
-                        result.get(row)[col] = '#';
-                        changed = true;
-                    } else if (seat == '#' && neighbours >= 4) {
-                        result.get(row)[col] = 'L';
-                        changed = true;
-                    } else {
-                        result.get(row)[col] = seat;
-                    }
-
-                    if (result.get(row)[col] == '#') {
-                        occupied++;
-                    }
+                if (result.get(i) == '#') {
+                    occupied++;
                 }
             }
             input = result;
@@ -81,94 +91,33 @@ public class Day11 {
         return occupied;
     }
 
-    public static int findAdjacents(ArrayList<char[]> input, int row, int col) {
-        int neighbours = 0;
-        for (int c = col -1; c <= col +1; c++) {
-            if (!(c < 0 || c >= input.get(0).length)) {
-                for (int r = row - 1; r <= row + 1; r++) {
-                    if (!(r < 0 || r >= input.size() || (r == row && c == col))) {
-                        char seat = input.get(r)[c];
-                        if (seat == '#') {
-                            neighbours++;
-                        }
-                    }
-                }
-            }
-        }
-        return neighbours;
-    }
-
-    public static int cycle2(ArrayList<char[]> input) {
-        ArrayList<char[]> result;
-        int w = input.get(0).length;
-        boolean changed = true;
-        int round = 0, occupied = 0;
-
-        while (changed) {
-            changed = false;
-            round ++;
-            occupied = 0;
-
-            result = new ArrayList<>();
-            for (int i = 0; i < input.size(); i++) {
-                result.add(new char[w]);
-            }
-
-            for (int row = 0; row < input.size(); row++) {
-                for (int col = 0; col < w; col++) {
-                    char seat = input.get(row)[col];
-                    int neighbours = findVisibleAdjacents(input, row, col);
-                    if (seat == 'L' && neighbours == 0) {
-                        result.get(row)[col] = '#';
-                        changed = true;
-                    } else if (seat == '#' && neighbours >= 5) {
-                        result.get(row)[col] = 'L';
-                        changed = true;
-                    } else {
-                        result.get(row)[col] = seat;
-                    }
-
-                    if (result.get(row)[col] == '#') {
-                        occupied++;
-                    }
-
-                }
-            }
-            input = result;
-        }
-        return occupied;
-    }
-
-
-    public static int findVisibleAdjacents(ArrayList<char[]> input, int row, int col) {
-        int neighbours = 0;
-        char nextSeat;
-        int nextCol, nextRow;
+    public static int findAdjacents(ArrayList<Character> input, int index, int width, boolean vis) {
         int[][] nextPositions = {{+1, +1}, {-1, +1}, {-1, -1}, {+1, -1}, {0, -1}, {0, +1}, {-1, 0}, {+1, 0}};
+        int neighbours = 0;
+        int row = index / width;
+        int col = index % width;
+        int nextRow, nextCol;
+        char nextSeat;
 
-        for (int[] nextPos: nextPositions) {
-            nextRow = row;
-            nextCol = col;
-            while (true) {
-                nextRow = nextRow + nextPos[0];
-                nextCol = nextCol + nextPos[1];
-                if (!inSeats(input, nextRow, nextCol)) {
-                    break;
+        for (int[] nextPos : nextPositions) {
+            nextRow = row + nextPos[0];
+            nextCol = col + nextPos[1];
+            if (vis) {
+                while (inSeats(input, nextRow, nextCol, width)) {
+                    nextSeat = input.get(nextRow * width + nextCol);
+                    if (nextSeat == '#') neighbours++;
+                    if (nextSeat != '.') break;
+                    nextRow = nextRow + nextPos[0];
+                    nextCol = nextCol + nextPos[1];
                 }
-                nextSeat = input.get(nextRow)[nextCol];
-                if (nextSeat == '#') {
-                    neighbours++;
-                    break;
+            } else {
+                if (inSeats(input, nextRow, nextCol, width)) {
+                    nextSeat = input.get(nextRow * width + nextCol);
+                    if (nextSeat == '#') neighbours++;
                 }
-                if (nextSeat == 'L') break;
             }
-        }
+         }
         return neighbours;
-    }
-
-    public static boolean inSeats(ArrayList<char[]> input, int row, int col) {
-        int w = input.get(0).length;
-        return (col >= 0 && col < w && row >= 0 && row < input.size());
     }
 
 }
