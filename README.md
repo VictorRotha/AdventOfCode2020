@@ -13,5 +13,6 @@
 - [Day 09: Encoding Error](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day09.java)
 - [Day 10: Adapter Array](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day10.java)
 - [Day 11: Seating System](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day11.java)
+- [Day 12: Rain Risk](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day12.java)
 
 (Removed all input data from Repository)
