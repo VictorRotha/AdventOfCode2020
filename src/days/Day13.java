@@ -14,6 +14,7 @@ public class Day13 {
         input.remove(input.size()-1);
 
         System.out.printf("Part 01 Solution is %s\n", nextBus(input, ts));
+        System.out.printf("Part 02 Solution is %s\n", findTChinese(input));
     }
 
     public static ArrayList<Integer> readInput(String path) {
@@ -22,7 +23,9 @@ public class Day13 {
             BufferedReader br = new BufferedReader(new FileReader(path));
             int timestamp = Integer.parseInt(br.readLine());
             for (String ts : br.readLine().split(",")) {
-                if (!ts.equals("x")) {
+                if (ts.equals("x")) {
+                    timestamps.add(0);
+                } else {
                     timestamps.add(Integer.parseInt(ts));
                 }
             }
@@ -38,6 +41,7 @@ public class Day13 {
         int minWaiting = input.get(0);
         int minID = input.get(0);
         for (int bus : input) {
+            if (bus == 0) continue;
             int waiting = bus - (timestamp % bus);
             if (waiting < minWaiting) {
                 minWaiting = waiting;
@@ -46,4 +50,51 @@ public class Day13 {
         }
         return minWaiting * minID;
     }
+
+    //too slow !!
+    public static long findT(ArrayList<Integer> input) {
+
+        long t = input.get(0);
+        long waiting;
+        int bus;
+        while (true) {
+            boolean result = true;
+            for (int i = 1; i < input.size(); i++) {
+                bus = input.get(i);
+                if (bus == 0) continue;
+                waiting = bus - (t % bus);
+                if (waiting != i){
+                    result = false;
+                    break;
+                }
+            }
+            if (result) {
+                return t;
+            }
+            t += input.get(0);
+        }
+    }
+
+    //Chinese Remainder Theorem
+    public static long findTChinese(ArrayList<Integer> input) {
+        long pProd = 1;
+        for (int i : input) {
+            if (i != 0) pProd *= i;
+        }
+
+        long sum = 0, n;
+        int p, j;
+        for (int i = 1; i < input.size(); i++) {
+            if ((p = input.get(i)) == 0) continue;
+            n = (pProd / p);
+            j = 1;
+            while ((n * j) % p != 1) {
+                j++;
+            }
+            sum += ((p - i) * n * j);
+        }
+
+        return sum % pProd;
+    }
+
 }
