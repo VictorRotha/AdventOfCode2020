@@ -15,5 +15,6 @@
 - [Day 11: Seating System](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day11.java)
 - [Day 12: Rain Risk](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day12.java)
 - [Day 13: Shuttle Search](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day13.java)
+- [Day 14: Docking Data](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day14.java)
 
 (Removed all input data from Repository)
