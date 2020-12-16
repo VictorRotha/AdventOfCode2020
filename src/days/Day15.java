@@ -21,11 +21,7 @@ public class Day15 {
         int nextNumber = input[input.length-1];
         for (int turn = input.length-1; turn < maxTurns; turn++ ) {
             number = nextNumber;
-            if (!gameList.containsKey(number)) {
-                nextNumber = 0;
-            } else {
-                nextNumber = turn - gameList.get(number);
-            }
+            nextNumber = (!gameList.containsKey(number)) ? 0 : turn - gameList.get(number);
             gameList.put(number, turn);
         }
         return number;
