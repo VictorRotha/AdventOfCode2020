@@ -17,5 +17,6 @@
 - [Day 13: Shuttle Search](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day13.java)
 - [Day 14: Docking Data](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day14.java)
 - [Day 15: Rambunctious Recitation](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day15.java)
+- [Day 16: Ticket Translation](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day16.java)
 
 (Removed all input data from Repository)
