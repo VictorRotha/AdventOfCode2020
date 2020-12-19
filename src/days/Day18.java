@@ -9,16 +9,18 @@ public class Day18 {
 
     public static void main(String[] args) {
         String path = "src/input/Day18_input.txt";
-        System.out.printf("Part 01 sum is %s\n", readInput(path));
+        System.out.printf("Part 01 sum is %s\n", readInput(path, false));
+        System.out.printf("Part 02 sum is %s\n", readInput(path, true));
+
     }
 
-    public static long readInput(String path) {
+    public static long readInput(String path, boolean advanced) {
         long result = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             String line;
             while ((line = br.readLine()) != null) {
-                result += runExpression(line.strip());
+                result += runExpression(line.strip(), advanced);
             }
 
         } catch (IOException e) {
@@ -27,14 +29,41 @@ public class Day18 {
         return result;
     }
 
-    public static long runExpression(String expr) {
-        long result = 0;
-        ArrayList<String[]> split = splitExpression(expr);
+    public static String applyParas(String input) {
+        String result = "";
+        int oPara = 0;
+        boolean changed= false;
+        for (int i = 0; i < input.length(); i++){
+            char c = input.charAt(i);
+            if (c == '*' && oPara == 0) {
+                result += ") * (";
+                changed = true;
+            } else if (c == '(') {
+                oPara++;
+                result += c;
+            } else if (c == ')') {
+                oPara--;
+                result += c;
+            } else if (c != ' ') {
+                result += c;
+            }
 
+        }
+        if (changed) {
+            result = "(" + result + ")";
+        }
+        return result;
+    }
+
+    public static long runExpression(String input, boolean advanced) {
+        if (advanced) input = applyParas(input);
+        ArrayList<String[]> split = splitExpression(input);
+
+        long result = 0;
         for (String[] e : split) {
             long p;
             if (e[0].contains("+") || e[0].contains("*")) {
-                p = runExpression(e[0]);
+                p = runExpression(e[0], advanced);
             } else {
                 p = Integer.parseInt(e[0]);
             }
@@ -81,22 +110,14 @@ public class Day18 {
             } else if (c == '+' || c == '*') {
                 op = c + "";
                 idx += 1;
+
             } else {
-                nxtIdx = input.indexOf(" ", idx + 1);
-                if (nxtIdx == -1) {
-                    String sub = input.substring(idx);
-                    result.add(new String[]{sub, op});
-                    break;
-                }
-                String sub = input.substring(idx, nxtIdx);
-                result.add(new String[]{sub, op});
-                idx = nxtIdx;
+                result.add(new String[]{c + "", op});
+                idx++;
             }
         }
         return result;
     }
-
-
 
 
 
