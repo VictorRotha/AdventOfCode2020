@@ -20,5 +20,6 @@
 - [Day 16: Ticket Translation](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day16.java)
 - [Day 17: Conway Cubes](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day17.java)
 - [Day 18: Operation Order](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day18.java)
+- [Day 19: Monster Messages](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day19.java)
 
 (Removed all input data from Repository)
