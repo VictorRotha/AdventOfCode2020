@@ -23,5 +23,6 @@
 - [Day 19: Monster Messages](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day19.java)
 - [Day 20: Jurassic Jigsaw (PART 01)](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day20.java)
 - [Day 21: Allergen Assessment](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day21.java)
+- [Day 22: Crab Combat](https://github.com/VictorRotha/AdventOfCode2020/blob/main/src/days/Day22.java)
 
 (Removed all input data from Repository)
